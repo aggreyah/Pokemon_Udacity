@@ -16,8 +16,8 @@
 package udacity.pokemon;
 
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -60,10 +60,11 @@ public class MainActivity extends AppCompatActivity {
 
             String url = "https://raw.githubusercontent.com/Biuni/PokemonGO-Pokedex/master/pokedex.json";
 
-
             String jsonString = "";
             try {
                 // TODO: make a request to the URL
+                URL myUrl = new URL(url);
+                jsonString = sh.makeHttpRequest(myUrl);
 
             } catch (IOException e) {
                 return null;
@@ -73,14 +74,18 @@ public class MainActivity extends AppCompatActivity {
             if (jsonString != null) {
                 try {
                     //TODO: Create a new JSONObject
+                    JSONObject jsonObj = new JSONObject(jsonString);
 
                     // TODO: Get the JSON Array node and name it "pokemons"
-
+                    JSONArray pokemons = jsonObj.getJSONArray("pokemon");
 
                     // looping through all Contacts
                     for (int i = 0; i < pokemons.length(); i++) {
                         //TODO: get the JSONObject and its three attributes
-
+                        JSONObject c = pokemons.getJSONObject(i);
+                        String name = c.getString("name");
+                        String id = c.getString("id");
+                        String candy = c.getString("candy");
 
                         // tmp hash map for a single pokemon
                         HashMap<String, String> pokemon = new HashMap<>();
